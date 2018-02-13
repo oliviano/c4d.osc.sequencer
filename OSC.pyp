@@ -147,6 +147,14 @@ def SerialiseObject(sender, baseAddress, object, serialiseArguments):
 	# send object position
 	position = object.GetAbsPos() * object.GetUpMg();
 	Send(sender, baseAddress + "/position", vectorToList(position, serialiseArguments.reformatCoordinates), serialiseArguments)
+	
+	# send object rotation
+	rotation = object.GetAbsRot() * object.GetUpMg();
+	dh = c4d.utils.RadToDeg(rotation.x)
+	dp = c4d.utils.RadToDeg(rotation.y)
+	db = c4d.utils.RadToDeg(rotation.z)
+	degreRotation = c4d.Vector(dh,dp,db)
+	Send(sender, baseAddress + "/rotation", vectorToList(degreeRotation, serialiseArguments.reformatCoordinates), serialiseArguments)
 
 	# if the object is a spline, then send the spline
 	spline = object.GetRealSpline()
